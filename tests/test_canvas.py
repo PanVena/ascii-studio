@@ -4,7 +4,7 @@ import pytest
 pytest.importorskip("PySide6.QtWidgets")
 
 from PySide6.QtCore import QEvent, QPoint, QPointF, Qt  # noqa: E402
-from PySide6.QtGui import QMouseEvent, QTextCursor  # noqa: E402
+from PySide6.QtGui import QColor, QMouseEvent, QTextCursor  # noqa: E402
 from PySide6.QtWidgets import QApplication  # noqa: E402
 
 from ascii_studio.core import mirror  # noqa: E402
@@ -209,8 +209,26 @@ def test_underlay_paints_ghost_pixels(app, editor, tools):
     editor.add_layer("top")
     show(app, editor)
     img = editor.viewport().grab().toImage()
-    ghost = tools.ghost_color.getRgb()
-    assert any(img.pixelColor(x, y).getRgb() == ghost for y in range(img.height()) for x in range(img.width()))
+    # Без хінтингу (Windows) штрих гліфа може не покрити жоден піксель повністю, тож
+    # точного збігу з ghost_color немає — досить пікселя, що пройшов ≥70% шляху від фону.
+    bg, ghost = QColor(tools.bg), tools.ghost_color
+
+    def toward_ghost(c):
+        span = [(g - b) for g, b in zip(ghost.getRgb()[:3], bg.getRgb()[:3])]
+        got = [(v - b) for v, b in zip(c.getRgb()[:3], bg.getRgb()[:3])]
+        return sum(a * b for a, b in zip(got, span)) / sum(a * a for a in span)
+
+    assert any(0.7 <= toward_ghost(img.pixelColor(x, y)) <= 1.3
+               for y in range(img.height()) for x in range(img.width()))
+
+
+def test_placeholder_hidden_while_underlay_shown(editor):
+    assert editor.placeholderText()
+    editor.setPlainText("abcd")
+    top = editor.add_layer("top")
+    assert editor.underlay_text and not editor.placeholderText()
+    editor.remove_layer(top)
+    assert not editor.underlay_text and editor.placeholderText()
 
 
 def test_zoom_clamped(editor):

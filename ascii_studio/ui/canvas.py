@@ -276,6 +276,8 @@ class CanvasEditor(shortcuts.CanvasShortcutFilter, QPlainTextEdit):
         text = compose(texts) if texts else ""
         if text != self._underlay:
             self._underlay = text
+            # Підказка порожнього полотна інакше лягає поверх привида нижніх шарів.
+            self.setPlaceholderText("" if text else tr("placeholder_canvas"))
             self.viewport().update()
 
     @property
