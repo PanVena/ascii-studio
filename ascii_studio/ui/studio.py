@@ -31,6 +31,7 @@ from .workspace import Workspace
 
 MODE_FIGLET, MODE_FONTS, MODE_CANVAS = 0, 1, 2
 REPO_URL = "https://github.com/PanVena/ascii-studio"
+GUIDE_COL_MAX = 1000
 
 
 class StudioWindow(QMainWindow):
@@ -235,6 +236,7 @@ class StudioWindow(QMainWindow):
                     "view.zoom_in", "view.zoom_out", "view.zoom_reset", None, "view.next_tab", "view.prev_tab"):
             m.addAction(a(key)) if key else m.addSeparator()
         m.addSeparator()
+        m.addAction(tr("menu_guide_col"), self.choose_guide_col)
         self.theme_menu = m.addMenu(tr("menu_theme"))
 
         m = mb.addMenu(tr("menu_layers"))
@@ -377,6 +379,8 @@ class StudioWindow(QMainWindow):
         acts = self._theme_group.actions()
         if 0 <= self.theme_picker.combo.currentIndex() < len(acts):
             acts[self.theme_picker.combo.currentIndex()].setChecked(True)
+        guide = st.get("guide_col", 80)
+        self.tools.update(guide_col=guide if isinstance(guide, int) and 0 <= guide <= GUIDE_COL_MAX else 80)
         font = st.get("figlet_font")
         if font:
             self.figlet_panel.set_font_name(font)
@@ -940,6 +944,13 @@ class StudioWindow(QMainWindow):
     def work_dir_open(self) -> None:
         if self._st.dirs() and os.path.isdir(self._st.current_dir):
             open_folder(self._st.current_dir)
+
+    def choose_guide_col(self) -> None:
+        col, ok = QInputDialog.getInt(self, tr("dlg_guide_title"), tr("dlg_guide_label"),
+                                      self.tools.guide_col, 0, GUIDE_COL_MAX)
+        if ok:
+            self.tools.update(guide_col=col)
+            self._st.set("guide_col", col)
 
     def choose_language(self) -> None:
         codes = list(i18n.LANGUAGES)

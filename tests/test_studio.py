@@ -324,3 +324,19 @@ def test_open_url_uses_xdg_open_with_clean_env(monkeypatch):
     assert args == ["/usr/bin/xdg-open", "https://example.com/"]
     assert "QT_QPA_PLATFORMTHEME" not in env
     assert env["LD_LIBRARY_PATH"] == "/usr/lib"
+
+
+def test_guide_col_setting_persists(studio, monkeypatch):
+    from ascii_studio import settings
+    from ascii_studio.ui import studio as studio_mod
+    assert studio.tools.guide_col == 80
+    monkeypatch.setattr(studio_mod.QInputDialog, "getInt", staticmethod(lambda *a, **k: (0, True)))
+    studio.choose_guide_col()
+    assert studio.tools.guide_col == 0
+    assert settings.get().get("guide_col") == 0
+    monkeypatch.setattr(studio_mod.QInputDialog, "getInt", staticmethod(lambda *a, **k: (120, True)))
+    studio.choose_guide_col()
+    settings.reset(settings.get().path)
+    studio.tools.update(guide_col=80)
+    studio._restore_state()
+    assert studio.tools.guide_col == 120
