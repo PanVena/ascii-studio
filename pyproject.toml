@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ascii-studio"
+version = "1.0.0"
+description = "ASCII art editor: FIGlet text, layered canvas, symmetric brush, mirror, block editing and animation preview"
+readme = "README.md"
+license = "GPL-2.0-only"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "Pan Vena" }]
+dependencies = ["PySide6>=6.6", "pyfiglet>=1.0"]
+keywords = ["ascii", "ascii-art", "figlet", "editor", "pyside6"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Environment :: X11 Applications :: Qt",
+    "Topic :: Multimedia :: Graphics :: Editors",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+build = ["pyinstaller>=6"]
+
+[project.urls]
+Homepage = "https://github.com/PanVena/ascii-studio"
+
+[project.gui-scripts]
+ascii-studio = "ascii_studio.app:main"
+
+[tool.setuptools]
+packages = ["ascii_studio", "ascii_studio.core", "ascii_studio.ui", "ascii_studio.ui.dialogs"]
+
+[tool.setuptools.package-data]
+ascii_studio = ["fonts/*", "locales/*.json", "icon.png"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

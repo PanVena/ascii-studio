@@ -1,0 +1,43 @@
+MIT License
+
+Copyright (c) 2026 Pan Vena (Ліниві ШІ / Lazy AIs)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+Note on the underlying glyph design:
+
+The "ANSI Shadow" font traces to an unknown DOS-era author; it was collected
+at roysac.com (as SHADOW.TDF, no authorship attribution on that page) and
+later converted to FIGlet format via patorjk.com/figfont-editor. It is
+distributed by pyfiglet under claimed redistribution rights. Roy/SAC's
+Free Art License (applied to his own works in 2008) does not extend to
+this font, as SHADOW.TDF is not his authorship.
+
+This font is an extended-alphabet adaptation derived from the FIGlet font
+"ANSI Shadow", which is distributed as part of the pyfiglet font collection.
+The original `.flf` lists `Font Author: ?` and points to the TheDraw / RoySAC
+community archive, indicating that the original author is undocumented and
+the glyph design has long been treated as a community asset. The Cyrillic and
+Latin Extended glyphs added in this work are original to Pan Vena.
+
+Pyfiglet itself (used to render the font) is MIT-licensed:
+  Copyright (c) 2007-2018 Christopher Jones, Stefano Rivera, Peter Waller,
+  and various contributors. https://github.com/pwaller/pyfiglet
